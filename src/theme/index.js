@@ -7,6 +7,20 @@ const theme = extendTheme(
       useSystemColorMode: false,
     },
     components: {
+      Accordion: {
+        baseStyle: {
+          button: {
+            paddingTop: 5,
+            paddingBottom: 5,
+            color: "blue.700",
+            fontWeight: "bold",
+          },
+          panel: {
+            paddingTop: 3,
+            paddingBottom: 8,
+          },
+        },
+      },
       Link: {
         // styles for the `a`
         baseStyle: {
