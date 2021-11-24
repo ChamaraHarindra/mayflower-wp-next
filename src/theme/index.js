@@ -7,6 +7,17 @@ const theme = extendTheme(
       useSystemColorMode: false,
     },
     components: {
+      Tabs: {
+        baseStyle: {
+          tab: {
+            color: "gray.600",
+            _selected: {
+              fontWeight: "bold",
+              boxShadow: "none",
+            },
+          },
+        },
+      },
       Accordion: {
         baseStyle: {
           button: {

@@ -116,7 +116,7 @@ export default function Header({ headerTopMenu }) {
     },
     {
       label: "Cash Prices",
-      url: "/patient-information/cash-prices/",
+      url: "/patient-information/cash-price/",
     },
   ];
   return (
@@ -202,7 +202,7 @@ export default function Header({ headerTopMenu }) {
                   ))}
                 </MenuList>
               </Menu>
-              <Link href="#">
+              <Link href="/medical-team">
                 <Button variant="link">Medical Team</Button>
               </Link>
               <Link href="#">
