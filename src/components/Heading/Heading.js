@@ -21,7 +21,7 @@ export default function Heading(props) {
         fontSize="4xl"
         fontWeight="900"
         lineHeight="1.4"
-        mb="10"
+        mb="5"
       >
         {props.primary}
       </Text>

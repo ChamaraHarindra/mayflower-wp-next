@@ -5,10 +5,11 @@ export default function CardImg(props) {
   return (
     <Box
       position="relative"
-      height="225px"
+      height={props.height ? props.height : "225px"}
       overflow="hidden"
       borderRadius="xl"
       className="card-img"
+      onClick={props.onClick}
     >
       <Image
         src={props.src}
@@ -28,8 +29,8 @@ export default function CardImg(props) {
         bgGradient="linear(to-t, black, rgba(0,0,0,0))"
         zIndex="2"
       />
-      <Box pos="absolute" bottom="30px" left="20px" zIndex="3">
-        {props.children}
+      <Box pos="absolute" bottom="30px" left="20px" zIndex="3" w={"100%"}>
+        <Box mr="20px">{props.children}</Box>
       </Box>
     </Box>
   );

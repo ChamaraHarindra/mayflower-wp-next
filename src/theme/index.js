@@ -64,6 +64,22 @@ const theme = extendTheme(
               color: "white",
             },
           },
+          brandGreen: {
+            bg: "brandGreen.700",
+            color: "white",
+            _hover: {
+              bg: "brandGreen.500",
+              color: "white",
+            },
+          },
+          brandGreenGhost: {
+            bg: "brandGreen.50",
+            color: "brandGreen.700",
+            _hover: {
+              bg: "brandGreen.100",
+              color: "brandGreen.800",
+            },
+          },
           ghostBlue: {
             rounded: "full",
             fontWeight: "bold",
