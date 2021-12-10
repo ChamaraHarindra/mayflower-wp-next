@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Flex, Image, Text, Heading, Button } from "@chakra-ui/react";
 
 export default function BannerStripe(props) {
@@ -25,7 +24,7 @@ export default function BannerStripe(props) {
           px="6"
         >
           <Box>
-            <Heading size="lg" color="white" as="h2" mb="2">
+            <Heading size="lg" color="white" mb="2">
               {props.heading}
             </Heading>
             <Text color="white" fontWeight="500">

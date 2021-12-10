@@ -1,4 +1,3 @@
-import React from "react";
 import { Image, Box, Text, Button, Flex } from "@chakra-ui/react";
 
 export default function Heading(props) {
@@ -6,7 +5,7 @@ export default function Heading(props) {
     <>
       <Text
         textTransform="capitalize"
-        as="h3"
+        // as="h3"
         color="brandBlue.700"
         fontSize="lg"
         fontWeight="600"
@@ -15,7 +14,7 @@ export default function Heading(props) {
         {props.secondary}
       </Text>
       <Text
-        as="h2"
+        // as="h2"
         textTransform="capitalize"
         color="black"
         fontSize="4xl"

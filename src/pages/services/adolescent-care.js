@@ -1,6 +1,10 @@
-import React from "react";
 import AdolescentCare from "../../views/services/adolescent-care/adolescent-care";
+import MainLayout from "../../components/Layout/MainLayout/MainLayout";
 
 export default function AdolescentCarePage() {
-  return <AdolescentCare />;
+  return (
+    <MainLayout>
+      <AdolescentCare />
+    </MainLayout>
+  );
 }

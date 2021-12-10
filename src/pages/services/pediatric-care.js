@@ -1,6 +1,10 @@
-import React from "react";
+import MainLayout from "../../components/Layout/MainLayout/MainLayout";
 import PediatricCare from "../../views/services/pediatric-care/pediatric-care";
 
 export default function PediatricCarePage() {
-  return <PediatricCare />;
+  return (
+    <MainLayout>
+      <PediatricCare />
+    </MainLayout>
+  );
 }

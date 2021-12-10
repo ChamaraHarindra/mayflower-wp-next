@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Stack,
   HStack,
@@ -18,7 +17,6 @@ import {
 export default function SocialMediaBtn(props) {
   return (
     <Link
-      as="Button"
       bg="brandBlue.50"
       href={props.href}
       target="_blank"
@@ -27,6 +25,9 @@ export default function SocialMediaBtn(props) {
       borderWidth="2px"
       borderStyle="solid"
       w="50px"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
       h="50px"
       color="brandBlue.600"
       _hover={props._hover}

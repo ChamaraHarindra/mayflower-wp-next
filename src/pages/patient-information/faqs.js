@@ -1,6 +1,9 @@
-import React from "react";
 import Faq from "../../views/patient-information/faqs/faqs";
-
+import MainLayout from "../../components/Layout/MainLayout/MainLayout";
 export default function FaqPage() {
-  return <Faq />;
+  return (
+    <MainLayout>
+      <Faq />
+    </MainLayout>
+  );
 }

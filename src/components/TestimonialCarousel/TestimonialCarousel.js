@@ -1,4 +1,3 @@
-import React from "react";
 import { Image, Button, Box, Text, Avatar, Flex, Icon } from "@chakra-ui/react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";

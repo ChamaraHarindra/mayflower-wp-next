@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Flex, Icon, Text, Link, Button, Image } from "@chakra-ui/react";
 import Heading from "../../../components/Heading/Heading";
 import SubHeroBanner from "../../../components/SubHeroBanner/SubHeroBanner";

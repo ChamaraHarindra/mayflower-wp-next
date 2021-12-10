@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Stack,
   HStack,
@@ -24,7 +23,7 @@ import {
 } from "react-icons/ri";
 import SocialMediaBtn from "../../SocialMediaBtn/SocialMediaBtn";
 
-export default function Footer() {
+export default function Footer({ footer }) {
   const menuItem = [
     "Home",
     "About Us",
@@ -124,8 +123,6 @@ export default function Footer() {
     );
   }
 
-  let TelList;
-
   return (
     <>
       <Box className="footer-top" bg="brandBlue.50" py="30px">
@@ -206,33 +203,18 @@ export default function Footer() {
             <Box className="col-md-2">
               <FooterHeader text="Keep in Touch" />
               <HStack spacing="5">
-                <SocialMediaBtn
-                  href={"#"}
-                  IconAs={RiFacebookFill}
-                  _hover={{
-                    color: "white",
-                    bg: "facebook.500",
-                    borderColor: "facebook.500",
-                  }}
-                />
-                <SocialMediaBtn
-                  href={"#"}
-                  IconAs={RiTwitterFill}
-                  _hover={{
-                    color: "white",
-                    bg: "twitter.500",
-                    borderColor: "twitter.500",
-                  }}
-                />
-                <SocialMediaBtn
-                  href={"#"}
-                  IconAs={RiInstagramFill}
-                  _hover={{
-                    color: "white",
-                    bg: "pink.500",
-                    borderColor: "pink.500",
-                  }}
-                />
+                {footer.socialLinks?.map((link) => (
+                  <SocialMediaBtn
+                    key={link.iconName}
+                    href={link.iconUrl}
+                    IconAs={RiFacebookFill}
+                    _hover={{
+                      color: "white",
+                      bg: "facebook.500",
+                      borderColor: "facebook.500",
+                    }}
+                  />
+                ))}
               </HStack>
             </Box>
           </Box>
@@ -302,15 +284,7 @@ export default function Footer() {
           <Box className="row">
             <Box w="100%" h="1px" bg="whiteAlpha.500" my={4} />
             <Text textAlign="center" fontSize="sm" mt={2} color="white">
-              Copyright ©2021{" "}
-              <Link
-                href="#"
-                color="brandGreen.200"
-                _hover={{ color: "brandGreen.300" }}
-                fontWeight="bold"
-              >
-                mayflowermedicalgroup
-              </Link>
+              {footer.copyrightText}
             </Text>
           </Box>
         </Box>

@@ -1,4 +1,3 @@
-import React from "react";
 import { Image, Box, Text, Button, Flex, Link } from "@chakra-ui/react";
 
 export default function ImgContentCard(props) {

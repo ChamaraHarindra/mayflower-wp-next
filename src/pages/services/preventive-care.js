@@ -1,6 +1,10 @@
-import React from "react";
 import PreventiveCare from "../../views/services/preventive-care/preventive-care";
+import MainLayout from "../../components/Layout/MainLayout/MainLayout";
 
 export default function PreventiveCarePage() {
-  return <PreventiveCare />;
+  return (
+    <MainLayout>
+      <PreventiveCare />
+    </MainLayout>
+  );
 }

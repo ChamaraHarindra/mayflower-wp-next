@@ -40,9 +40,57 @@ const theme = extendTheme(
             textDecoration: "none",
             color: "blue.400",
           },
-          _hover: {
-            textDecoration: "none",
-            color: "blue.400",
+        },
+        variants: {
+          roundedGreen: {
+            rounded: "full",
+            bg: "brandGreen.700",
+            color: "white",
+            _hover: {
+              bg: "brandGreen.500",
+              color: "white",
+            },
+          },
+          brandGreen: {
+            bg: "brandGreen.700",
+            color: "white",
+            _hover: {
+              bg: "brandGreen.500",
+              color: "white",
+            },
+          },
+          brandGreenGhost: {
+            bg: "brandGreen.50",
+            color: "brandGreen.700",
+            _hover: {
+              bg: "brandGreen.100",
+              color: "brandGreen.800",
+            },
+          },
+          ghostBlue: {
+            rounded: "full",
+            fontWeight: "bold",
+            bg: "brandBlue.50",
+            color: "brandBlue.700",
+
+            _hover: {
+              bg: "brandBlue.200",
+              color: "brandBlue.700",
+            },
+          },
+          roundedBlue: {
+            rounded: "full",
+            bg: "brandBlue.700",
+            color: "white",
+            paddingLeft: 4,
+            paddingRight: 4,
+            minHeight: "40px",
+            display: "flex",
+            alignItems: "center",
+            _hover: {
+              bg: "brandBlue.500",
+              color: "white",
+            },
           },
         },
       },

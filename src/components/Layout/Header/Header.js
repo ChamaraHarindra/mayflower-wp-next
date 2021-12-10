@@ -1,6 +1,4 @@
 import { RiPhoneFill } from "react-icons/ri";
-import { gql } from "@apollo/client";
-import { client } from "../../../lib/apollo";
 import {
   Stack,
   HStack,
@@ -25,102 +23,16 @@ import {
   MenuDivider,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import Head from "next/head";
 
-export default function Header({ headerTopMenu }) {
-  const topMenu = [
-    {
-      label: "About",
-      url: "/about",
-    },
-    {
-      label: "Our Locations",
-      url: "/our-locations",
-    },
-    {
-      label: "Careers",
-      url: "/careers",
-    },
-    {
-      label: "Contact",
-      url: "/contact",
-    },
-  ];
-
-  const servicesMenu = [
-    {
-      label: "What We Offer",
-      url: "/services/what-we-offer/",
-    },
-    {
-      label: "Adolescent Care",
-      url: "/services/adolescent-care/",
-    },
-    {
-      label: "Cardiovascular Care",
-      url: "/services/cardiovascular-care/",
-    },
-    {
-      label: "Chronic Disease Management",
-      url: "/services/chronic-disease-management/",
-    },
-    {
-      label: "Flu Prevention",
-      url: "/services/flu-prevention/",
-    },
-    {
-      label: "General Primary Care",
-      url: "/services/general-primary-care/",
-    },
-    {
-      label: "Geriatric Care",
-      url: "/services/geriatric-care/",
-    },
-    {
-      label: "Men's Health",
-      url: "/services/men-health/",
-    },
-    {
-      label: "Office Procedure & Surgery",
-      url: "/services/office-procedure-&-surgery/",
-    },
-    {
-      label: "Pediatric Care",
-      url: "/services/pediatric-care/",
-    },
-    {
-      label: "Preventive Care",
-      url: "/services/preventive-care/",
-    },
-    {
-      label: "Women's Health",
-      url: "/services/women-health/",
-    },
-  ];
-
-  const patientInformationMenu = [
-    {
-      label: "Educational Resources",
-      url: "/patient-information/educational-resources/",
-    },
-    {
-      label: "Registration Forms",
-      url: "/patient-information/registration-forms/",
-    },
-    {
-      label: "FAQs",
-      url: "/patient-information/faqs/",
-    },
-    {
-      label: "Accepted Insurance",
-      url: "/patient-information/accepted-insurance/",
-    },
-    {
-      label: "Cash Prices",
-      url: "/patient-information/cash-price/",
-    },
-  ];
+export default function Header({ headerMenu, header, pageTitle }) {
   return (
     <>
+      <Head>
+        <title>
+          {header.siteTitle} - {pageTitle}
+        </title>
+      </Head>
       <Box
         py="2"
         className="container"
@@ -140,13 +52,15 @@ export default function Header({ headerTopMenu }) {
             </Flex>
           </Box>
           <Flex className="col-md-auto" align="center">
-            {topMenu.map((item, i) => (
-              <Text fontSize="sm" key={i} fontWeight="500">
-                <Link href={item.url} mx="2">
-                  {item.label}
-                </Link>
-              </Text>
-            ))}
+            {headerMenu?.edges?.length
+              ? headerMenu?.edges?.slice(0, 4).map((item) => (
+                  <Text fontSize="sm" key={item?.node?.id} fontWeight="500">
+                    <Link href={item?.node?.path} mx="2">
+                      {item?.node?.label}
+                    </Link>
+                  </Text>
+                ))
+              : null}
             <Button ml="2" size="sm" variant="roundedGreen">
               <Text fontWeight="bold" fontSize="sm">
                 Log In
@@ -159,94 +73,59 @@ export default function Header({ headerTopMenu }) {
         <Box className="row justify-content-md-between align-items-center">
           <Box className="col-md-auto">
             <Link href="/">
-              <Image src="/mayflower-logo.png" alt="Mayflower medical Group" />
+              <Image src={header.siteLogoUrl} alt={header.siteTitle} />
             </Link>
           </Box>
-          <Box className="col-md-auto">
-            <HStack spacing="15px">
-              <Menu id="services" isLazy>
-                <MenuButton
-                  variant="link"
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  Services
-                </MenuButton>
-                <MenuList>
-                  {servicesMenu.map((item, i) => (
-                    <MenuItem key={i}>
-                      <Link href={item.url}>
-                        <Text fontSize="sm" color="brandBlue.700">
-                          {item.label}
-                        </Text>
-                      </Link>
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
-              <Menu id="patientInformation" isLazy>
-                <MenuButton
-                  as={Button}
-                  variant="link"
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  Patient Information
-                </MenuButton>
-                <MenuList>
-                  {patientInformationMenu.map((item, i) => (
-                    <MenuItem key={i}>
-                      <Link href={item.url}>
-                        <Text fontSize="sm">{item.label}</Text>
-                      </Link>
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
-              <Link href="/medical-team">
-                <Button variant="link">Medical Team</Button>
-              </Link>
-              <Link href="#">
-                <Button variant="roundedBlue">Make an Appointment</Button>
-              </Link>
-              <Link href="#">
-                <Button variant="roundedBlue">Pay Your Bills</Button>
-              </Link>
-            </HStack>
-          </Box>
+          {headerMenu?.edges?.length ? (
+            <Box className="col-md-auto">
+              <HStack spacing="15px">
+                {headerMenu?.edges?.slice(4, 11).map((menu) => (
+                  <Menu key={menu?.node?.id} id={menu?.node?.id} isLazy>
+                    <MenuButton
+                      variant={
+                        menu?.node?.id === "cG9zdDo4OA==" ||
+                        menu?.node?.id === "cG9zdDo4Nw=="
+                          ? "roundedBlue"
+                          : "link"
+                      }
+                      fontWeight="600"
+                      as={menu?.node?.childItems?.edges?.length ? Button : Link}
+                      rightIcon={
+                        menu?.node?.childItems?.edges?.length ? (
+                          <ChevronDownIcon />
+                        ) : (
+                          ""
+                        )
+                      }
+                      href={
+                        menu?.node?.childItems?.edges?.length
+                          ? null
+                          : menu?.node?.path
+                      }
+                    >
+                      {menu?.node?.label}
+                    </MenuButton>
+
+                    {menu?.node?.childItems?.edges?.length ? (
+                      <MenuList>
+                        {menu?.node?.childItems?.edges?.map((childMenuItem) => (
+                          <MenuItem key={childMenuItem?.node?.id}>
+                            <Link href={childMenuItem?.node?.path}>
+                              <Text fontSize="sm" color="brandBlue.700">
+                                {childMenuItem?.node?.label}
+                              </Text>
+                            </Link>
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    ) : null}
+                  </Menu>
+                ))}
+              </HStack>
+            </Box>
+          ) : null}
         </Box>
       </Box>
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const result = await client.query({
-//     query: gql`
-//       query getTopMenu {
-//         menus(where: { id: 3 }) {
-//           nodes {
-//             databaseId
-//             name
-//             menuItems {
-//               edges {
-//                 node {
-//                   label
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     `,
-//   });
-
-//   return {
-//     props: {
-//       headerTopMenu: result.data.menus,
-//       // title: result.data.posts.nodes.title,
-//       // content: result.data.posts.nodes.content,
-//       // date: result.data.posts.nodes.date,
-//       // uri: result.data.posts.nodes.uri,
-//     },
-//   };
-// }

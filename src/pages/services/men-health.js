@@ -1,6 +1,10 @@
-import React from "react";
 import MensHealth from "../../views/services/men-health/men-health";
+import MainLayout from "../../components/Layout/MainLayout/MainLayout";
 
 export default function MensHealthPage() {
-  return <MensHealth />;
+  return (
+    <MainLayout>
+      <MensHealth />
+    </MainLayout>
+  );
 }
