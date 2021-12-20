@@ -1,23 +1,4 @@
 import { useEffect, useState } from "react";
-// import {
-//   Stack,
-//   HStack,
-//   VStack,
-//   Box,
-//   Flex,
-//   Icon,
-//   Text,
-//   Link,
-//   Button,
-//   Image,
-//   StackDivider,
-//   Tag,
-//   TagLabel,
-//   TagLeftIcon,
-//   TagRightIcon,
-//   TagCloseButton,
-//   Avatar,
-// } from "@chakra-ui/react";
 import Heading from "../components/Heading/Heading";
 import SubHeroBanner from "../components/SubHeroBanner/SubHeroBanner";
 import { isEmpty } from "lodash";
@@ -25,6 +6,8 @@ import { isEmpty } from "lodash";
 import client from "../lib/apollo";
 import { GET_PAGE } from "../queries/pages/get-page";
 import { GET_PAGES_URI } from "../queries/pages/get-pages";
+import { GET_LOCATION_TABS } from "../queries/get-our-locations-tabs";
+import { GET_RESOURCES } from "../queries/get-external-resources";
 import { useRouter } from "next/router";
 import { sanitize } from "../utils/miscellaneous";
 import {
@@ -33,47 +16,71 @@ import {
   isCustomPageUri,
 } from "../utils/slug";
 import MainLayout from "../components/Layout/MainLayout/MainLayout";
+import OurLocationTabs from "../components/OurLocationTabs/OurLocationTabs";
 
-export default function Pages({ data }) {
-  //   console.log("data from slug", data);
-
+export default function Pages({ pageData }) {
   const [isMounted, setMount] = useState(false);
-
+  // console.log(locationTabData);
   useEffect(() => {
     setMount(true);
   }, []);
 
   const router = useRouter();
-
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
   return (
-    <MainLayout data={data}>
-      <SubHeroBanner h1={data.page.title} bg="/sub-banner-1.png" />
-      {isMounted && data?.page?.content ? (
+    <MainLayout data={pageData}>
+      <SubHeroBanner
+        h1={pageData?.page?.title}
+        bg={
+          pageData?.page?.featuredImage?.node?.slug
+            ? `/${pageData?.page?.featuredImage?.node?.slug}.jpg`
+            : "/sub-banner-1.png"
+        }
+      />
+      {isMounted && pageData?.page?.content ? (
         <div
           className="index"
           dangerouslySetInnerHTML={{
-            __html: sanitize(data?.page?.content ?? {}),
+            __html: sanitize(pageData?.page?.content ?? {}),
           }}
         />
       ) : null}
+
+      {/* Our Locations tab view */}
+      {/* {isMounted &&
+      locationTabData &&
+      pageData?.page?.title === "Our Locations" ? (
+        <OurLocationTabs locationTabData={locationTabData} />
+      ) : null} */}
+
+      {/* External Resources */}
     </MainLayout>
   );
 }
 
 export async function getStaticProps({ params }) {
-  const { data, errors } = await client.query({
+  const { data } = await client.query({
     query: GET_PAGE,
     variables: {
       uri: params?.slug.join("/"),
     },
   });
 
+  const { data: locationTabData } = await client.query({
+    query: GET_LOCATION_TABS,
+  });
+
+  // const { data: externalResources } = await client.query({
+  //   query: GET_RESOURCES,
+  // });
+
   const defaultProps = {
     props: {
-      data: data || {},
+      pageData: data || {},
+      // locationTabData: locationTabData || {},
+      // externalResources: externalResources || {},
     },
     /**
      * Revalidate means that if a new request comes to server, then every 1 sec it will check
@@ -83,7 +90,13 @@ export async function getStaticProps({ params }) {
     revalidate: 1,
   };
 
-  return handleRedirectsAndReturnData(defaultProps, data, errors, "page");
+  return handleRedirectsAndReturnData(
+    defaultProps,
+    data,
+    // locationTabData,
+    // externalResources,
+    "page"
+  );
 }
 
 /**

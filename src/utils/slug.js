@@ -11,7 +11,6 @@ export const isCustomPageUri = (uri) => {
 export const handleRedirectsAndReturnData = (
   defaultProps,
   data,
-  errors,
   field,
   isPreview = false,
   loginRedirectURL = ""
