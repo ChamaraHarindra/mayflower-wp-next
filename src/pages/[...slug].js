@@ -40,6 +40,7 @@ import { GET_FORMS } from "../queries/get-forms";
 import { GET_FAQS } from "../queries/get-faqs";
 import { GET_PROCEDURES_AND_VACCINES } from "../queries/get-procedures-and-vaccines";
 import { GET_MEDICAL_TEAM } from "../queries/get-medical-team";
+import { GET_CONTACT } from "../queries/get-contact";
 // utils
 import {
   FALLBACK,
@@ -57,6 +58,7 @@ import RegistrationForms from "../views/registration-forms";
 import Faqs from "../views/faqs";
 import CashPrice from "../views/cash-price";
 import MedicalTeam from "../views/medical-team";
+import Contact from "../views/contact";
 
 export default function Pages({
   pageData,
@@ -66,6 +68,7 @@ export default function Pages({
   faqContent,
   procedureData,
   medicalTeamData,
+  contactData,
 }) {
   const [isMounted, setMount] = useState(false);
 
@@ -160,6 +163,15 @@ export default function Pages({
       pageData?.page?.slug === medicalTeamData?.medicalTeamList?.slug ? (
         <MedicalTeam medicalTeamData={medicalTeamData} />
       ) : null}
+
+      {/* ======================================
+      Contact Page
+      ====================================== */}
+      {isMounted &&
+      contactData &&
+      pageData?.page?.slug === contactData?.contactData?.slug ? (
+        <Contact contactData={contactData} locationTabData={locationTabData} />
+      ) : null}
     </MainLayout>
   );
 }
@@ -202,6 +214,11 @@ export async function getStaticProps({ params }) {
     query: GET_MEDICAL_TEAM,
   });
 
+  //  get Contact
+  const { data: contactData } = await client.query({
+    query: GET_CONTACT,
+  });
+
   return {
     props: {
       pageData: pageData || {},
@@ -211,6 +228,7 @@ export async function getStaticProps({ params }) {
       faqContent: faqContent || {},
       procedureData: procedureData || {},
       medicalTeamData: medicalTeamData || {},
+      contactData: contactData || {},
     },
     revalidate: 1,
   };
@@ -250,6 +268,6 @@ export async function getStaticPaths() {
 
   return {
     paths: pathsData,
-    fallback: FALLBACK,
+    fallback: "blocking",
   };
 }
