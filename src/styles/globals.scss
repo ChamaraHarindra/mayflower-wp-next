@@ -32,30 +32,18 @@ $darkGreen: #0f6c3b;
 }
 
 .crumbs {
-  ol {
-    display: flex;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-  }
+  display: flex;
+  align-items: center;
 
-  li {
+  span {
     color: white;
     display: flex;
     align-items: center;
+    margin-right: 7px;
     font-weight: 500;
 
-    &:after {
-      content: "/";
-      display: block;
-      padding: 0 10px 0;
-    }
-
-    &:last-child {
-      &:after {
-        display: none;
-      }
+    .ant-breadcrumb-separator {
+      margin: 0;
     }
   }
 }
@@ -303,5 +291,17 @@ h4 {
       color: #ffffff;
       font-weight: bold;
     }
+  }
+}
+
+.insurance-img {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin: 0 0 15px;
+
+  figure {
+    margin: 0;
   }
 }

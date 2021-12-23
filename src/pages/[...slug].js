@@ -2,25 +2,73 @@ import { useEffect, useState } from "react";
 import Heading from "../components/Heading/Heading";
 import SubHeroBanner from "../components/SubHeroBanner/SubHeroBanner";
 import { isEmpty } from "lodash";
-
+import {
+  Box,
+  Flex,
+  Icon,
+  Text,
+  Link,
+  Button,
+  Image,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  ListItem,
+  UnorderedList,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
 import client from "../lib/apollo";
+// queries
 import { GET_PAGE } from "../queries/pages/get-page";
 import { GET_PAGES_URI } from "../queries/pages/get-pages";
 import { GET_LOCATION_TABS } from "../queries/get-our-locations-tabs";
 import { GET_RESOURCES } from "../queries/get-external-resources";
-import { useRouter } from "next/router";
-import { sanitize } from "../utils/miscellaneous";
+import { GET_FORMS } from "../queries/get-forms";
+import { GET_FAQS } from "../queries/get-faqs";
+import { GET_PROCEDURES_AND_VACCINES } from "../queries/get-procedures-and-vaccines";
+import { GET_MEDICAL_TEAM } from "../queries/get-medical-team";
+// utils
 import {
   FALLBACK,
   handleRedirectsAndReturnData,
   isCustomPageUri,
 } from "../utils/slug";
+import { useRouter } from "next/router";
+import { sanitize } from "../utils/miscellaneous";
+// components
 import MainLayout from "../components/Layout/MainLayout/MainLayout";
-import OurLocationTabs from "../components/OurLocationTabs/OurLocationTabs";
+// Views
+import OurLocationTabs from "../views/our-locations";
+import EducationalResources from "../views/educational-resources";
+import RegistrationForms from "../views/registration-forms";
+import Faqs from "../views/faqs";
+import CashPrice from "../views/cash-price";
+import MedicalTeam from "../views/medical-team";
 
-export default function Pages({ pageData }) {
+export default function Pages({
+  pageData,
+  locationTabData,
+  externalResources,
+  registrationForms,
+  faqContent,
+  procedureData,
+  medicalTeamData,
+}) {
   const [isMounted, setMount] = useState(false);
-  // console.log(locationTabData);
+
   useEffect(() => {
     setMount(true);
   }, []);
@@ -31,6 +79,11 @@ export default function Pages({ pageData }) {
   }
   return (
     <MainLayout data={pageData}>
+      {/* ======================================
+      ==========================================
+      Dynamic Page Content 
+      ==========================================
+      ====================================== */}
       <SubHeroBanner
         h1={pageData?.page?.title}
         bg={
@@ -48,55 +101,119 @@ export default function Pages({ pageData }) {
         />
       ) : null}
 
-      {/* Our Locations tab view */}
-      {/* {isMounted &&
-      locationTabData &&
-      pageData?.page?.title === "Our Locations" ? (
-        <OurLocationTabs locationTabData={locationTabData} />
-      ) : null} */}
+      {/* ======================================
+      ==========================================
+      Custom Content with Advanced Custom Fields 
+      ==========================================
+      ====================================== */}
 
-      {/* External Resources */}
+      {/* ======================================
+      Our Locations Page
+      ====================================== */}
+      {isMounted &&
+      locationTabData &&
+      pageData?.page?.slug === locationTabData?.location_tabs?.slug ? (
+        <OurLocationTabs locationTabData={locationTabData} />
+      ) : null}
+
+      {/* ======================================
+      Educational Resources Page
+      ====================================== */}
+      {isMounted &&
+      externalResources &&
+      pageData?.page?.slug === externalResources?.externalResources?.slug ? (
+        <EducationalResources externalResources={externalResources} />
+      ) : null}
+
+      {/* ======================================
+      Registration Forms Page
+      ====================================== */}
+      {isMounted &&
+      registrationForms &&
+      pageData?.page?.slug === registrationForms?.forms?.slug ? (
+        <RegistrationForms registrationForms={registrationForms} />
+      ) : null}
+
+      {/* ======================================
+      FAQs Page
+      ====================================== */}
+      {isMounted &&
+      faqContent &&
+      pageData?.page?.slug === faqContent?.faqsList?.slug ? (
+        <Faqs faqContent={faqContent} />
+      ) : null}
+
+      {/* ======================================
+      Cash Price Page
+      ====================================== */}
+      {isMounted &&
+      procedureData &&
+      pageData?.page?.slug === procedureData?.cashPriceList?.slug ? (
+        <CashPrice procedureData={procedureData} />
+      ) : null}
+
+      {/* ======================================
+      Medical Team Page
+      ====================================== */}
+      {isMounted &&
+      medicalTeamData &&
+      pageData?.page?.slug === medicalTeamData?.medicalTeamList?.slug ? (
+        <MedicalTeam medicalTeamData={medicalTeamData} />
+      ) : null}
     </MainLayout>
   );
 }
 
 export async function getStaticProps({ params }) {
-  const { data } = await client.query({
+  // Get page content and header footer data
+  const { data: pageData } = await client.query({
     query: GET_PAGE,
     variables: {
       uri: params?.slug.join("/"),
     },
   });
 
+  // get location data for our locations page
   const { data: locationTabData } = await client.query({
     query: GET_LOCATION_TABS,
   });
 
-  // const { data: externalResources } = await client.query({
-  //   query: GET_RESOURCES,
-  // });
+  // Educational resources page content
+  const { data: externalResources } = await client.query({
+    query: GET_RESOURCES,
+  });
 
-  const defaultProps = {
+  //  Registration forms download page
+  const { data: registrationForms } = await client.query({
+    query: GET_FORMS,
+  });
+  //  get faqs
+  const { data: faqContent } = await client.query({
+    query: GET_FAQS,
+  });
+
+  //  get Cash Price Lists
+  const { data: procedureData } = await client.query({
+    query: GET_PROCEDURES_AND_VACCINES,
+  });
+
+  //  get Medical Team
+  const { data: medicalTeamData } = await client.query({
+    query: GET_MEDICAL_TEAM,
+  });
+
+  return {
     props: {
-      pageData: data || {},
-      // locationTabData: locationTabData || {},
-      // externalResources: externalResources || {},
+      pageData: pageData || {},
+      locationTabData: locationTabData || {},
+      externalResources: externalResources || {},
+      registrationForms: registrationForms || {},
+      faqContent: faqContent || {},
+      procedureData: procedureData || {},
+      medicalTeamData: medicalTeamData || {},
     },
-    /**
-     * Revalidate means that if a new request comes to server, then every 1 sec it will check
-     * if the data is changed, if it is changed then it will update the
-     * static file inside .next folder with the new data, so that any 'SUBSEQUENT' requests should have updated data.
-     */
     revalidate: 1,
   };
-
-  return handleRedirectsAndReturnData(
-    defaultProps,
-    data,
-    // locationTabData,
-    // externalResources,
-    "page"
-  );
 }
 
 /**

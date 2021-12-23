@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_LOCATION_TABS = gql`
   query GET_LOCATION_TABS {
     location_tabs: pageBy(uri: "/our-locations/") {
+      slug
       locationList {
         location {
           locationName
