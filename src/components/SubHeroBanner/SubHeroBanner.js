@@ -22,7 +22,7 @@ import {
   BreadcrumbSeparator,
 } from "@chakra-ui/react";
 import ChevronRightIcon from "@chakra-ui/icons";
-import Breadcrumbs from "nextjs-antd-breadcrumbs";
+// import Breadcrumbs from "nextjs-antd-breadcrumbs";
 
 export default function SubHeroBanner({ h1, children, bg }) {
   return (
@@ -41,11 +41,11 @@ export default function SubHeroBanner({ h1, children, bg }) {
               <Text as="h1" fontSize="50px" fontWeight="900" color="white">
                 {h1}
               </Text>
-              <Breadcrumbs
+              {/* <Breadcrumbs
                 className="crumbs"
                 rootLabel="Home"
                 omitRootLabel={false}
-              />
+              /> */}
             </Box>
           </Box>
         </Box>

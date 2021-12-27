@@ -30,6 +30,7 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
+
 import client from "../lib/apollo";
 // queries
 import { GET_PAGE } from "../queries/pages/get-page";
@@ -170,7 +171,12 @@ export default function Pages({
       {isMounted &&
       contactData &&
       pageData?.page?.slug === contactData?.contactData?.slug ? (
-        <Contact contactData={contactData} locationTabData={locationTabData} />
+        <>
+          <Contact
+            contactData={contactData}
+            locationTabData={locationTabData}
+          />
+        </>
       ) : null}
     </MainLayout>
   );

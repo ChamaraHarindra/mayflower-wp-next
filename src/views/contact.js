@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
+import Script from "next/script";
+import { WPEForm } from "@wpeform/react/noLazy";
 import {
   Box,
   Flex,
@@ -34,42 +36,48 @@ import {
 } from "react-icons/ri";
 
 export default function Contact({ contactData, locationTabData }) {
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
-  const [email, setEmail] = useState("");
-  //   const [phone, setPhone] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-  const [showMe, setShowMe] = useState(false);
-  const [showForm, setShowForm] = useState(true);
+  // const [fName, setFName] = useState("");
+  // const [lName, setLName] = useState("");
+  // const [email, setEmail] = useState("");
+  // //   const [phone, setPhone] = useState("");
+  // const [subject, setSubject] = useState("");
+  // const [message, setMessage] = useState("");
+  // const [showMe, setShowMe] = useState(false);
+  // const [showForm, setShowForm] = useState(true);
 
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-    const emailContent = `
-      Message received from <strong>${fName}</strong>. 
-      Their email address is <strong>${email}</strong>. <br />
-      They'd like to know about...
-      ${message}
-    `;
-    const data = await sendMail(
-      "New message from website contact form",
-      emailContent
-    );
-    console.log("email content", data);
+  // const handleSubmit = async (evt) => {
+  //   evt.preventDefault();
+  //   const emailContent = `
+  //     Message received from <strong>${fName}</strong>.
+  //     Their email address is <strong>${email}</strong>. <br />
+  //     They'd like to know about...
+  //     ${message}
+  //   `;
+  //   const data = await sendMail(
+  //     "New message from website contact form",
+  //     emailContent
+  //   );
+  //   console.log("email content", data);
 
-    if (data?.sent) {
-      // email was sent successfully!
-      setShowMe(!showMe);
-      setShowForm(!showForm);
-    } else {
-      alert("unknown error");
-    }
-  };
+  //   if (data?.sent) {
+  //     // email was sent successfully!
+  //     setShowMe(!showMe);
+  //     setShowForm(!showForm);
+  //   } else {
+  //     alert("unknown error");
+  //   }
+  // };
 
   const contact = contactData?.contactData?.contact;
 
   return (
     <Box className="container">
+      <Script
+        type="text/javascript"
+        crossorigin="anonymous"
+        src="http://35.87.1.230/wp-eform/system/headless-js/?version=1.6.1"
+        integrity="sha256-txubTNldNUVF7dfut9rURAjjmBC1Km/e6s+7hWr4SFI="
+      ></Script>
       {/* side by side content */}
       <Box className="row align-items-center" pt={10} pb={10}>
         <Box className="col-md-6">
@@ -82,7 +90,8 @@ export default function Contact({ contactData, locationTabData }) {
               __html: sanitize(contact?.contactContent ?? null),
             }}
           />
-          <form onSubmit={handleSubmit} display={showForm ? "block" : "none"}>
+          <WPEForm formId="1" />
+          {/* <form onSubmit={handleSubmit} display={showForm ? "block" : "none"}>
             <Box className="row" mt={10}>
               <Box className="col-md-6" mb={4}>
                 <FormControl isRequired>
@@ -150,8 +159,8 @@ export default function Contact({ contactData, locationTabData }) {
                 </Button>
               </Box>
             </Box>
-          </form>
-          <Alert
+          </form> */}
+          {/* <Alert
             status="success"
             variant="subtle"
             flexDirection="column"
@@ -169,7 +178,7 @@ export default function Contact({ contactData, locationTabData }) {
               Thanks for submitting your application. Our team will get back to
               you soon.
             </AlertDescription>
-          </Alert>
+          </Alert> */}
         </Box>
         <Box className="col-md-6">
           <Image
