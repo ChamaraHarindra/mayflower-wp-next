@@ -70,6 +70,7 @@ export default function Pages({
   procedureData,
   medicalTeamData,
   contactData,
+  domain,
 }) {
   const [isMounted, setMount] = useState(false);
 
@@ -175,6 +176,7 @@ export default function Pages({
           <Contact
             contactData={contactData}
             locationTabData={locationTabData}
+            domain={domain}
           />
         </>
       ) : null}
@@ -235,6 +237,7 @@ export async function getStaticProps({ params }) {
       procedureData: procedureData || {},
       medicalTeamData: medicalTeamData || {},
       contactData: contactData || {},
+      domain: process.env.PUBLIC_WORDPRESS_SITE_URL,
     },
     revalidate: 1,
   };

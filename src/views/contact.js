@@ -24,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import Heading from "../components/Heading/Heading";
 import { sanitize } from "../utils/miscellaneous";
-import { sendMail } from "../lib/contact-form-api";
+// import { sendMail } from "../lib/contact-form-api";
 import CardImg from "../components/CardImg/CardImg";
 import {
   RiMapPin2Line,
@@ -75,7 +75,8 @@ export default function Contact({ contactData, locationTabData }) {
       <Script
         type="text/javascript"
         crossorigin="anonymous"
-        src="http://35.87.1.230/wp-eform/system/headless-js/?version=1.6.1"
+        strategy="beforeInteractive"
+        src={`https://mfwpb.elifeamerica.com/wp-eform/system/headless-js/?version=1.6.1`}
         integrity="sha256-txubTNldNUVF7dfut9rURAjjmBC1Km/e6s+7hWr4SFI="
       ></Script>
       {/* side by side content */}
