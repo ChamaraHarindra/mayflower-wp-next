@@ -20,6 +20,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@react-spring/web": "^9.3.2",
+    "@sendgrid/mail": "^7.6.0",
     "@use-gesture/react": "^10.2.4",
     "@wordpress/base-styles": "^4.0.4",
     "@wordpress/block-library": "^6.0.13",
