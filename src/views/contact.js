@@ -33,6 +33,11 @@ import {
 } from "react-icons/ri";
 
 export default function Contact({ contactData, locationTabData }) {
+  const [showForm, setShowForm] = useState(true);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showFailureMessage, setShowFailureMessage] = useState(false);
+  const [buttonText, setButtonText] = useState("Send Message");
+
   async function handleOnSubmit(e) {
     e.preventDefault();
 
@@ -42,11 +47,24 @@ export default function Contact({ contactData, locationTabData }) {
       if (!field.name) return;
       formData[field.name] = field.value;
     });
-
-    await fetch("/api/mail", {
+    setButtonText("Sending Message...");
+    const res = await fetch("/api/mail", {
       method: "POST",
       body: JSON.stringify(formData),
     });
+
+    const { error } = await res.json();
+    if (error) {
+      console.log(error);
+      setShowSuccessMessage(false);
+      setShowFailureMessage(true);
+      setButtonText("Send Message");
+      return;
+    }
+    setShowSuccessMessage(true);
+    setShowFailureMessage(false);
+    setShowForm(false);
+    setButtonText("Message Sent");
   }
 
   const contact = contactData?.contactData?.contact;
@@ -65,32 +83,7 @@ export default function Contact({ contactData, locationTabData }) {
               __html: sanitize(contact?.contactContent ?? null),
             }}
           />
-          <style jsx>{`
-            form {
-              font-size: 1.2em;
-            }
-
-            label {
-              display: block;
-              margin-bottom: 0.2em;
-            }
-
-            input,
-            textarea {
-              width: 100%;
-              padding: 0.8em;
-            }
-
-            button {
-              color: white;
-              font-size: 1em;
-              background-color: blueviolet;
-              padding: 0.8em 1em;
-              border: none;
-              border-radius: 0.2em;
-            }
-          `}</style>
-          <form onSubmit={handleOnSubmit}>
+          {/* <form onSubmit={handleOnSubmit}>
             <p>
               <label htmlFor="name">Name</label>
               <input id="name" type="text" name="name" />
@@ -106,8 +99,11 @@ export default function Contact({ contactData, locationTabData }) {
             <p>
               <button>Submit</button>
             </p>
-          </form>
-          {/* <form onSubmit={handleSubmit} display={showForm ? "block" : "none"}>
+          </form> */}
+          <form
+            onSubmit={handleOnSubmit}
+            style={showForm ? { display: "block" } : { display: "none" }}
+          >
             <Box className="row" mt={10}>
               <Box className="col-md-6" mb={4}>
                 <FormControl isRequired>
@@ -116,8 +112,9 @@ export default function Contact({ contactData, locationTabData }) {
                     type="text"
                     variant="filled"
                     id="fName"
-                    value={fName}
-                    onChange={(e) => setFName(e.target.value)}
+                    name="fName"
+                    // value={fName}
+                    // onChange={(e) => setFName(e.target.value)}
                   />
                 </FormControl>
               </Box>
@@ -128,8 +125,9 @@ export default function Contact({ contactData, locationTabData }) {
                     type="text"
                     variant="filled"
                     id="lName"
-                    value={lName}
-                    onChange={(e) => setLName(e.target.value)}
+                    name="lName"
+                    // value={lName}
+                    // onChange={(e) => setLName(e.target.value)}
                   />
                 </FormControl>
               </Box>
@@ -140,46 +138,46 @@ export default function Contact({ contactData, locationTabData }) {
                     type="email"
                     variant="filled"
                     id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    // value={email}
+                    // onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormControl>
               </Box>
               <Box className="col-md-6" mb={4}>
-                <FormControl required>
+                <FormControl isRequired>
                   <FormLabel htmlFor="subject">Subject</FormLabel>
                   <Input
                     type="text"
                     variant="filled"
                     id="subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
+                    name="subject"
+                    // value={subject}
+                    // onChange={(e) => setSubject(e.target.value)}
                   />
                 </FormControl>
               </Box>
               <Box className="col-md-12" mb={4}>
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel htmlFor="message">Message</FormLabel>
                   <Textarea
                     variant="filled"
                     placeholder="Type in your message here"
                     id="message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    name="message"
+                    // value={message}
+                    // onChange={(e) => setMessage(e.target.value)}
                   />
                 </FormControl>
               </Box>
               <Box className="col-md-12" mb={4}>
                 <Button type="submit" variant="solid" colorScheme="brandBlue">
-                  Send Message
+                  {buttonText}
                 </Button>
               </Box>
             </Box>
           </form>
-          <Alert
-            status="error"
-            display={showFailuresMessage ? "block" : "none"}
-          >
+          <Alert status="error" display={showFailureMessage ? "block" : "none"}>
             <AlertIcon />
             There was an error processing your request
           </Alert>
@@ -191,17 +189,19 @@ export default function Contact({ contactData, locationTabData }) {
             justifyContent="center"
             textAlign="center"
             height="200px"
+            mt="20px"
+            borderRadius={"lg"}
             display={showSuccessMessage ? "block" : "none"}
           >
-            <AlertIcon boxSize="40px" mr={0} />
+            <AlertIcon height={"40px"} width={"auto"} mr={0} />
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              Application submitted!
+              Your Message Sent!
             </AlertTitle>
             <AlertDescription maxWidth="sm">
-              Thanks for submitting your application. Our team will get back to
-              you soon.
+              Thanks for contacting Mayflower medical Group. Our team will get
+              back to you soon.
             </AlertDescription>
-          </Alert> */}
+          </Alert>
         </Box>
         <Box className="col-md-6">
           <Image
