@@ -61,6 +61,8 @@ import CashPrice from "../views/cash-price";
 import MedicalTeam from "../views/medical-team";
 import Contact from "../views/contact";
 
+import NotFound from "../components/custom404";
+
 export default function Pages({
   pageData,
   locationTabData,
@@ -70,7 +72,6 @@ export default function Pages({
   procedureData,
   medicalTeamData,
   contactData,
-  domain,
 }) {
   const [isMounted, setMount] = useState(false);
 
@@ -82,106 +83,115 @@ export default function Pages({
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
-  return (
-    <MainLayout data={pageData}>
-      {/* ======================================
-      ==========================================
-      Dynamic Page Content 
-      ==========================================
-      ====================================== */}
-      <SubHeroBanner
-        h1={pageData?.page?.title}
-        bg={
-          pageData?.page?.featuredImage?.node?.slug
-            ? `/${pageData?.page?.featuredImage?.node?.slug}.jpg`
-            : "/sub-banner-1.png"
-        }
-      />
-      {isMounted && pageData?.page?.content ? (
-        <div
-          className="index"
-          dangerouslySetInnerHTML={{
-            __html: sanitize(pageData?.page?.content ?? {}),
-          }}
+
+  if (isEmpty(pageData?.page?.title)) {
+    console.log("hello");
+    return (
+      <MainLayout data={pageData}>
+        <NotFound />
+      </MainLayout>
+    );
+  } else {
+    return (
+      <MainLayout data={pageData}>
+        {/* ======================================
+        ==========================================
+        Dynamic Page Content 
+        ==========================================
+        ====================================== */}
+        <SubHeroBanner
+          h1={pageData?.page?.title}
+          bg={
+            pageData?.page?.featuredImage?.node?.slug
+              ? `/${pageData?.page?.featuredImage?.node?.slug}.jpg`
+              : "/sub-banner-1.png"
+          }
         />
-      ) : null}
-
-      {/* ======================================
-      ==========================================
-      Custom Content with Advanced Custom Fields 
-      ==========================================
-      ====================================== */}
-
-      {/* ======================================
-      Our Locations Page
-      ====================================== */}
-      {isMounted &&
-      locationTabData &&
-      pageData?.page?.slug === locationTabData?.location_tabs?.slug ? (
-        <OurLocationTabs locationTabData={locationTabData} />
-      ) : null}
-
-      {/* ======================================
-      Educational Resources Page
-      ====================================== */}
-      {isMounted &&
-      externalResources &&
-      pageData?.page?.slug === externalResources?.externalResources?.slug ? (
-        <EducationalResources externalResources={externalResources} />
-      ) : null}
-
-      {/* ======================================
-      Registration Forms Page
-      ====================================== */}
-      {isMounted &&
-      registrationForms &&
-      pageData?.page?.slug === registrationForms?.forms?.slug ? (
-        <RegistrationForms registrationForms={registrationForms} />
-      ) : null}
-
-      {/* ======================================
-      FAQs Page
-      ====================================== */}
-      {isMounted &&
-      faqContent &&
-      pageData?.page?.slug === faqContent?.faqsList?.slug ? (
-        <Faqs faqContent={faqContent} />
-      ) : null}
-
-      {/* ======================================
-      Cash Price Page
-      ====================================== */}
-      {isMounted &&
-      procedureData &&
-      pageData?.page?.slug === procedureData?.cashPriceList?.slug ? (
-        <CashPrice procedureData={procedureData} />
-      ) : null}
-
-      {/* ======================================
-      Medical Team Page
-      ====================================== */}
-      {isMounted &&
-      medicalTeamData &&
-      pageData?.page?.slug === medicalTeamData?.medicalTeamList?.slug ? (
-        <MedicalTeam medicalTeamData={medicalTeamData} />
-      ) : null}
-
-      {/* ======================================
-      Contact Page
-      ====================================== */}
-      {isMounted &&
-      contactData &&
-      pageData?.page?.slug === contactData?.contactData?.slug ? (
-        <>
-          <Contact
-            contactData={contactData}
-            locationTabData={locationTabData}
-            domain={domain}
+        {isMounted && pageData?.page?.content ? (
+          <div
+            className="index"
+            dangerouslySetInnerHTML={{
+              __html: sanitize(pageData?.page?.content ?? {}),
+            }}
           />
-        </>
-      ) : null}
-    </MainLayout>
-  );
+        ) : null}
+
+        {/* ======================================
+        ==========================================
+        Custom Content with Advanced Custom Fields 
+        ==========================================
+        ====================================== */}
+
+        {/* ======================================
+        Our Locations Page
+        ====================================== */}
+        {isMounted &&
+        locationTabData &&
+        pageData?.page?.slug === locationTabData?.location_tabs?.slug ? (
+          <OurLocationTabs locationTabData={locationTabData} />
+        ) : null}
+
+        {/* ======================================
+        Educational Resources Page
+        ====================================== */}
+        {isMounted &&
+        externalResources &&
+        pageData?.page?.slug === externalResources?.externalResources?.slug ? (
+          <EducationalResources externalResources={externalResources} />
+        ) : null}
+
+        {/* ======================================
+        Registration Forms Page
+        ====================================== */}
+        {isMounted &&
+        registrationForms &&
+        pageData?.page?.slug === registrationForms?.forms?.slug ? (
+          <RegistrationForms registrationForms={registrationForms} />
+        ) : null}
+
+        {/* ======================================
+        FAQs Page
+        ====================================== */}
+        {isMounted &&
+        faqContent &&
+        pageData?.page?.slug === faqContent?.faqsList?.slug ? (
+          <Faqs faqContent={faqContent} />
+        ) : null}
+
+        {/* ======================================
+        Cash Price Page
+        ====================================== */}
+        {isMounted &&
+        procedureData &&
+        pageData?.page?.slug === procedureData?.cashPriceList?.slug ? (
+          <CashPrice procedureData={procedureData} />
+        ) : null}
+
+        {/* ======================================
+        Medical Team Page
+        ====================================== */}
+        {isMounted &&
+        medicalTeamData &&
+        pageData?.page?.slug === medicalTeamData?.medicalTeamList?.slug ? (
+          <MedicalTeam medicalTeamData={medicalTeamData} />
+        ) : null}
+
+        {/* ======================================
+        Contact Page
+        ====================================== */}
+        {isMounted &&
+        contactData &&
+        pageData?.page?.slug === contactData?.contactData?.slug ? (
+          <>
+            <Contact
+              contactData={contactData}
+              locationTabData={locationTabData}
+            />
+          </>
+        ) : null}
+      </MainLayout>
+    );
+  }
 }
 
 export async function getStaticProps({ params }) {
@@ -237,7 +247,6 @@ export async function getStaticProps({ params }) {
       procedureData: procedureData || {},
       medicalTeamData: medicalTeamData || {},
       contactData: contactData || {},
-      domain: process.env.PUBLIC_WORDPRESS_SITE_URL,
     },
     revalidate: 1,
   };

@@ -7,7 +7,7 @@ export default function MainLayout({ children, data }) {
       <Header
         header={data?.header}
         headerMenu={data?.headerMenu}
-        pageTitle={data?.page?.title}
+        pageTitle={data ? data?.page?.title : "404 - Page Not Found"}
       />
       <main>{children}</main>
       <Footer footer={data?.footer} />

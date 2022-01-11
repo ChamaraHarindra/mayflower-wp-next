@@ -19,14 +19,14 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import CardImg from "../components/CardImg/CardImg";
-// import DoctorModal from "../components/DoctorModal/DoctorModal";
+import DoctorModal from "../components/DoctorModal/DoctorModal";
 
 export default function MedicalTeam({ medicalTeamData }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Box className="container">
+      <Box className="container" mb={10}>
         <Box className="row">
           <Box className="col-md-12">
             <Tabs>
@@ -49,6 +49,7 @@ export default function MedicalTeam({ medicalTeamData }) {
                             dept?.tabLabelName === doc?.department && (
                               <Box
                                 className="col-md-3 col-lg-2 col-6 col-sm-4"
+                                mb={5}
                                 key={i}
                               >
                                 <CardImg
